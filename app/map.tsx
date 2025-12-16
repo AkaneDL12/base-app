@@ -173,6 +173,12 @@ export default function MapScreen() {
     }
   };
 
+  const avatarUrl = user && (user as any).avatar ? (user as any).avatar : "";
+  const userInitials =
+    user && (user as any).name
+      ? (user as any).name.charAt(0).toUpperCase()
+      : "U";
+
   const htmlContent = `
     <!DOCTYPE html>
     <html>
@@ -200,26 +206,44 @@ export default function MapScreen() {
         let marker;
         let accuracyCircle;
         
+        const avatarUrl = "${avatarUrl}";
+        const userInitials = "${userInitials}";
+
+        let iconHtml;
+        if (avatarUrl) {
+            iconHtml = \`
+              <div style="
+                width: 48px; height: 48px; 
+                border-radius: 50%; 
+                border: 3px solid white; 
+                box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+                overflow: hidden;
+                background-color: #7c3aed;
+                display: flex; align-items: center; justify-content: center;
+              ">
+                <img src="\${avatarUrl}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\\'color: white; font-weight: bold; font-size: 20px; font-family: sans-serif;\\'>' + userInitials + '</span>'"/>
+              </div>
+            \`;
+        } else {
+             iconHtml = \`
+              <div style="
+                width: 48px; height: 48px; 
+                border-radius: 50%; 
+                border: 3px solid white; 
+                box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+                background-color: #7c3aed;
+                display: flex; align-items: center; justify-content: center;
+              ">
+                <span style="color: white; font-weight: bold; font-size: 20px; font-family: sans-serif;">\${userInitials}</span>
+              </div>
+            \`;
+        }
+
         const customIcon = L.divIcon({
           className: 'custom-marker',
-          html: \`
-            <div style="position: relative; width: 20px; height: 20px;">
-              <div style="
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 16px;
-                height: 16px;
-                background: #4285F4;
-                border: 3px solid white;
-                border-radius: 50%;
-                box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-              "></div>
-            </div>
-          \`,
-          iconSize: [20, 20],
-          iconAnchor: [10, 10]
+          html: iconHtml,
+          iconSize: [48, 48],
+          iconAnchor: [24, 24]
         });
         
         function initMap(lat, lng) {
