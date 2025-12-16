@@ -1,7 +1,7 @@
 import { View, Text, Pressable } from 'react-native';
 import { router, usePathname } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Home, User, MessageCircle, FileText, Map } from 'lucide-react-native';
+import { Home, User, MessageCircle, Map } from 'lucide-react-native';
 
 interface TabButton {
   name: string;
@@ -14,7 +14,6 @@ const TABS: TabButton[] = [
   { name: 'home', route: '/home', icon: Home, label: 'Home' },
   { name: 'profile', route: '/profile', icon: User, label: 'Perfil' },
   { name: 'chats', route: '/chats', icon: MessageCircle, label: 'Chats' },
-  { name: 'posts', route: '/posts', icon: FileText, label: 'Posts' },
   { name: 'map', route: '/map', icon: Map, label: 'Mapa' },
 ];
 

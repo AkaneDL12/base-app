@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Alert } from "react-native";
 import { postService, Post } from "../../services/posts-service";
 
@@ -19,6 +19,13 @@ export function usePosts(user: any) {
             setLoading(false);
         }
     }, []);
+
+    // Cargar posts al montar
+    useEffect(() => {
+        if (user) {
+            loadPosts();
+        }
+    }, [user, loadPosts]);
 
     const handleRefresh = useCallback(async () => {
         setRefreshing(true);
